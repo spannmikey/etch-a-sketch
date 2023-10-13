@@ -17,3 +17,55 @@ body {
 		rgba(58, 163, 233, 1) 40%
 	);
 }
+
+h1 {
+	text-align: center;
+	font-size: 48px;
+	letter-spacing: -3px;
+	color: #eee;
+	text-shadow: 1px 1px 2px black;
+	margin-bottom: 3rem;
+}
+
+.input-container {
+	display: flex;
+	justify-content: center;
+}
+
+.input-container input {
+	padding: 1rem;
+	border-radius: 0.5em;
+	border: none;
+	outline: none;
+}
+.container {
+	border: 2px solid black;
+	width: 600px;
+	height: 600px;
+	margin: 2rem auto;
+	box-shadow: 0 6px 12px 0 black;
+	background-color: #eee;
+}
+
+.btn-container {
+	display: flex;
+	justify-content: center;
+	gap: 3rem;
+}
+
+.btn-container > button {
+	padding: 1rem 2rem;
+	font-size: inherit;
+	font-weight: 600;
+	border-radius: 0.5em;
+	border: 3px solid #eee;
+	outline: none;
+	cursor: pointer;
+	transition: 1s;
+}
+
+.btn-container > button:hover {
+	background-color: transparent;
+	color: #eee;
+	text-shadow: 1px 1px 2px black;
+}
