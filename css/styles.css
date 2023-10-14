@@ -11,11 +11,7 @@
 body {
 	height: 100vh;
 	font-family: 'Gabarito', 'Arial', sans-serif;
-	background: linear-gradient(
-		320deg,
-		rgba(255, 254, 2, 1) 20%,
-		rgba(58, 163, 233, 1) 40%
-	);
+	background: linear-gradient(320deg, #4e65ff, #92effd);
 }
 
 h1 {

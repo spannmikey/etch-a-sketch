@@ -1,77 +1,73 @@
 const container = document.querySelector('.container');
-// Change background color
-function changeBgColor(min, max) {
-	const body = document.querySelector('body');
-	const randomRGB = () => Math.floor(Math.random() * (max - min) + min);
-	const r = randomRGB();
-	const g = randomRGB();
-	const b = randomRGB();
-	const r1 = randomRGB();
-	const g1 = randomRGB();
-	const b1 = randomRGB();
-	body.style.background = `linear-gradient(320deg,
-        rgba(${r}, ${g}, ${b}, 1) 20%,
-        rgba(${r1}, ${g1}, ${b1}, 1) 40%)`;
-}
-// Changing background every 10 seconds
-setInterval(() => changeBgColor(50, 150), 10000);
 
-// Create grid 16 x 16 grid rows/cols
-function getRows(rows = 16, cols = 16) {
+// Create grid with a specified size
+function createGrid(rows, cols) {
+	container.innerHTML = ''; // Clear the existing grid
 	container.style.setProperty('--grid-rows', rows);
 	container.style.setProperty('--grid-cols', cols);
 
-	for (let c = 0; c < rows * cols; c++) {
-		let cell = document.createElement('div');
-		container.appendChild(cell).className = 'grid-item';
+	for (let r = 0; r < rows; r++) {
+		for (let c = 0; c < cols; c++) {
+			let cell = document.createElement('div');
+			cell.className = 'grid-item';
+			cell.addEventListener('mouseover', draw);
+			container.appendChild(cell);
+		}
 	}
 }
-getRows();
 
-// Checks if the class contains grid item and allows you to draw
+// Initialize the grid
+createGrid(16, 16);
 
-//  Changing grid size
-const input = document.querySelector('input');
+// Set up drawing functions
+let isDrawing = false;
+
+function draw(event) {
+	if (isDrawing) {
+		event.target.style.backgroundColor = 'black';
+	}
+}
+
+container.addEventListener('mousedown', () => (isDrawing = true));
+container.addEventListener('mouseup', () => (isDrawing = false));
+
+// Handle button clicks
 const btn = document.querySelector('#btn');
-
-// set up hover effects based on what they click
+const input = document.querySelector('input');
 const rainbow = document.querySelector('.rainbow');
 const opaque = document.querySelector('.opaque');
-const grid = document.querySelectorAll('.grid-item');
 const clear = document.querySelector('.clear');
 
-Array.from(grid);
+btn.addEventListener('click', () => {
+	const newSize = parseInt(input.value);
+	createGrid(newSize, newSize);
+	getHoverState();
+});
 
-grid.forEach(item => {
-	item.addEventListener('mouseover', () => {
-		item.style.backgroundColor = `#111`;
-	});
+rainbow.addEventListener('click', () => {
+	rainbowColors(50, 150);
+});
+
+opaque.addEventListener('click', () => {
+	transparent();
+});
+
+clear.addEventListener('click', () => {
+	clearGrid();
 });
 
 function getHoverState() {
-	// Getting default state if they don't click a button
-	grid.forEach(item => {
+	container.querySelectorAll('.grid-item').forEach(item => {
 		item.addEventListener('mouseover', () => {
-			item.style.backgroundColor = `#111`;
+			item.style.backgroundColor = 'black';
 		});
 	});
-
-	// Getting rainbow colors if they click the rainbow button
-	rainbow.onclick = () => {
-		rainbowColors(50, 150);
-	};
-
-	opaque.onclick = () => {
-		transparent();
-	};
-
-	clear.onclick = () => {
-		clearGrid();
-	};
 }
+// calling this so it defaults to black in beginning
+getHoverState()
 
 function rainbowColors(min, max) {
-	grid.forEach(item => {
+	container.querySelectorAll('.grid-item').forEach(item => {
 		const r = Math.floor(Math.random() * (max - min) + min);
 		const g = Math.floor(Math.random() * (max - min) + min);
 		const b = Math.floor(Math.random() * (max - min) + min);
@@ -81,23 +77,16 @@ function rainbowColors(min, max) {
 	});
 }
 
-function transparent(max, min) {
-	grid.forEach(item => {
+function transparent() {
+	container.querySelectorAll('.grid-item').forEach(item => {
 		item.addEventListener('mouseover', () => {
-			item.style.backgroundColor = `transparent`;
+			item.style.backgroundColor = 'transparent';
 		});
 	});
 }
 
 function clearGrid() {
-	grid.forEach(item => {
-		item.style.backgroundColor = 'transparent'; // or any other default color you want
+	container.querySelectorAll('.grid-item').forEach(item => {
+		item.style.backgroundColor = 'transparent';
 	});
 }
-
-getHoverState();
-
-btn.onclick = () => {
-	getRows(input.value, input.value);
-	getHoverState();
-};
